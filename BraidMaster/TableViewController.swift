@@ -25,12 +25,13 @@ class TableViewController: UITableViewController{
     var elementsPATHArray:[String] = []
     var aboutToBecomeInvisibleCell = -1
     var paused: Bool = false
-    
+    var imageDataDictinary: [Int: UIImage] = [:]
+    var rowHeightAtIndexPath: [CGFloat] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         checkPermission()
         getURLList()
-        
+
         do {
             try FileManager.default.createDirectory(atPath: instructionDir, withIntermediateDirectories: true, attributes: nil)
         } catch let error {
@@ -41,18 +42,7 @@ class TableViewController: UITableViewController{
 
     }
     
-    func getURLList() {
-        
-        if let data = userDefaults.stringArray(forKey: "list") {
-            for value in data {
-                elementsPATHArray.append(value)
-            }
-            
-            print("elementsURL: \(elementsPATHArray)")
-            tableView.reloadData()
-        }
-        
-    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -71,6 +61,48 @@ class TableViewController: UITableViewController{
         
     }
     
+
+}
+
+extension TableViewController {
+     //    MARK: Files and Permishen
+    fileprivate func calculateImageRow(_ image: UIImage, _ indexPath: IndexPath) {
+        let const = image.size.height / image.size.width
+        let iconWidth: CGFloat = tableView.frame.width
+        let iconHeight: CGFloat = iconWidth * const
+        rowHeightAtIndexPath.append(iconHeight)
+    }
+    
+    fileprivate func calculateVideoRow(_ path: String, _ indexPath: IndexPath) {
+        
+        if let resolution = resolutionForLocalVideo(url: URL(fileURLWithPath: instructionDir + path)) {
+            let videoConst = resolution.height / resolution.width
+            let videoHeight = tableView.frame.width * videoConst
+            rowHeightAtIndexPath.append(videoHeight)
+        }
+    }
+    
+    func getURLList() {
+        
+        if let data = userDefaults.stringArray(forKey: "list") {
+            for value in data {
+                elementsPATHArray.append(value)
+            }
+            for (index,value) in elementsPATHArray.enumerated() {
+                let indexPath = IndexPath(row: index, section: 0)
+                if let image = UIImage(contentsOfFile: instructionDir + value) {
+                    imageDataDictinary[index] = image
+                    
+                    calculateImageRow(image, indexPath)
+                } else {
+                    calculateVideoRow(value, indexPath)
+                }
+            }
+            print("elementsURL: \(elementsPATHArray)")
+            tableView.reloadData()
+        }
+        
+    }
     func checkPermission() {
         let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
         switch photoAuthorizationStatus {
@@ -96,10 +128,15 @@ class TableViewController: UITableViewController{
         
         //   let mediaAuthorizationStatus = PHMedia  .authorizationStatus()
     }
-    
-    
-
-
+    func newFileNameGenerator() -> String {
+        let charList: [Int] = Array(0...9)
+        var newFileName: String = ""
+        for i in 0...8 {
+            let randomChar: Int = Int(arc4random_uniform(UInt32(charList.count - 1)))
+            newFileName += String( charList[randomChar])
+        }
+        return newFileName
+    }
 }
 
 extension TableViewController {
@@ -147,10 +184,10 @@ extension TableViewController {
           
                         if let videoCell = cells[i] as? VideoTableViewCell{
                             self.playVideoOnTheCell(cell: videoCell, indexPath: (indexPaths?[i])!)
-                            videoCell.videoFrame()
+//                            videoCell.videoFrame()
                         }
                         if let imageCell = cells[i] as? ImageTableViewCell{
-                            imageCell.iconFrame()
+//                            imageCell.iconFrame()
                         }
                     }
                 }
@@ -188,44 +225,55 @@ extension TableViewController {
         
         paused = true
     }
+    
+    func resolutionForLocalVideo(url: URL) -> CGSize? {
+        guard let track = AVURLAsset(url: url).tracks(withMediaType: AVMediaType.video).first else { return nil }
+        let size = track.naturalSize.applying(track.preferredTransform)
+//        self.videoResolution = CGSize(width: fabs(size.width), height: fabs(size.height))
+        return CGSize(width: fabs(size.width), height: fabs(size.height))
+    }
 }
 
 extension TableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
-    //MARK: Get media from libraru
+    //MARK: Get media from library
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        DispatchQueue.global(qos: .userInteractive).async {
+    
         if info[UIImagePickerControllerMediaType] as? String == "public.image" {
             let image = info[UIImagePickerControllerOriginalImage] as! UIImage
             
             
-            let newFileName = String(elementsPATHArray.count*10)
-            elementsPATHArray.append(newFileName)
-            print("SAVE elementsURL: \(elementsPATHArray)")
-            userDefaults.set(elementsPATHArray, forKey: "list")
-            let instructionNewFileURL = instructionDirURL.appendingPathComponent(newFileName, isDirectory: true)
+            let newFileName = self.newFileNameGenerator()
+            self.imageDataDictinary[self.elementsPATHArray.count] = image
+            self.elementsPATHArray.append(newFileName)
+            print("SAVE elementsURL: \(self.elementsPATHArray)")
+            self.userDefaults.set(self.elementsPATHArray, forKey: "list")
+            let instructionNewFileURL = self.instructionDirURL.appendingPathComponent(newFileName, isDirectory: true)
             
             let data = UIImagePNGRepresentation(image.fixedOrientation()!)
             FileManager.default.createFile(atPath: instructionNewFileURL.path, contents: data, attributes: nil)
             
-            tableView.reloadData()
-//            let lastSectionIndex = self.tableView.numberOfSections - 1
-//            let lastRowIndex = self.tableView.numberOfRows(inSection: 0) - 1
-//            let pathToLastRow =  IndexPath(row: lastRowIndex, section: lastSectionIndex)
-//            tableView.beginUpdates()
-//
-//            tableView.insertRows(at: , with)
-//
-//            tableView.endUpdates()
+            DispatchQueue.main.sync {
+            let indexPath = IndexPath(row: self.elementsPATHArray.count - 1, section: 0)
+            self.calculateImageRow(image, indexPath)
+            self.tableView.beginUpdates()
+
+                self.tableView.insertRows(at: [indexPath], with: .bottom)
+
+            self.tableView.endUpdates()
+            self.scrollToLastRow()
+            }
             
             
         } else if let mediaType = info[UIImagePickerControllerMediaType] as? String,
             mediaType == (kUTTypeMovie as String),
             let url = info[UIImagePickerControllerMediaURL] as? URL{
             print("mediatype: ",url)
-            let newFileName = String(elementsPATHArray.count*10) + ".MOV"
-            let instructionNewFileURL = instructionDirURL.appendingPathComponent(newFileName, isDirectory: true)
-            elementsPATHArray.append(newFileName)
-            print("SAVE elementsURL: \(elementsPATHArray)")
-            userDefaults.set(elementsPATHArray, forKey: "list")
+            let newFileName = self.newFileNameGenerator() + ".MOV"
+            let instructionNewFileURL = self.instructionDirURL.appendingPathComponent(newFileName, isDirectory: true)
+            self.elementsPATHArray.append(newFileName)
+            print("SAVE elementsURL: \(self.elementsPATHArray)")
+            self.userDefaults.set(self.elementsPATHArray, forKey: "list")
             do {
                 
                 try FileManager.default.moveItem(at: url, to: instructionNewFileURL)
@@ -234,10 +282,18 @@ extension TableViewController: UIImagePickerControllerDelegate, UINavigationCont
                 
                 print (error)
             }
-            tableView.reloadData()
-            print(url)
+                DispatchQueue.main.sync {
+                let indexPath = IndexPath(row: self.elementsPATHArray.count - 1, section: 0)
+                self.calculateVideoRow(newFileName, indexPath)
+                self.tableView.beginUpdates()
+                    self.tableView.insertRows(at: [indexPath], with: .bottom)
+                self.tableView.endUpdates()
+                self.scrollToLastRow()
+                }
+            }
         }
         dismiss(animated: true, completion: nil)
+        
     }
     
     
@@ -265,16 +321,14 @@ extension TableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let image = UIImage(contentsOfFile: instructionDir + elementsPATHArray[indexPath.row]) {
-            //            if let image  = elementsArray[indexPath.row] as? UIImage {
+ 
             let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell", for: indexPath) as! ImageTableViewCell
-            //                cell.picture.image = image
-            
-            cell.setImage(imageName: image)
-            
-            let const = cell.picture.image!.size.height / cell.picture.image!.size.width
-            tableView.rowHeight =  cell.frame.size.width * const
-            
-            print("img",tableView.rowHeight)
+
+
+            if let image = imageDataDictinary[indexPath.row] {
+                cell.setImage(imageName: image)
+            }
+
             return cell
             
         } else {
@@ -283,15 +337,11 @@ extension TableViewController {
             print("url string \(url)")
             let fullUrl = URL(fileURLWithPath: url)
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "videoCell") as! VideoTableViewCell
-            let resolution = cell.resolutionForLocalVideo(url: fullUrl)
+
             cell.videoPlayerItem = AVPlayerItem.init(url: fullUrl)
-            if let res = resolution {
-                let const = res.height / res.width
-                tableView.rowHeight = ceil(cell.frame.size.width * const)
-            }
-            cell.videoFrame()
+
+
             print("video",tableView.rowHeight)
-            //                print(resolution)
             return cell
             
         }
@@ -301,37 +351,38 @@ extension TableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         // indexPath.row это номер ячейки
+        DispatchQueue.global(qos: .userInteractive).async {
+            
         
-        let fileName = elementsPATHArray[indexPath.row]
+        let fileName = self.elementsPATHArray[indexPath.row]
         
         do {
-            let ipath = instructionDir + "\(fileName)"
+            let ipath = self.instructionDir + "\(fileName)"
             try FileManager.default.removeItem(atPath: ipath)
     
             print("file deleted \(ipath)")
         } catch let error as NSError {
             print("error deleting file: \(error.localizedDescription)")
         }
+        self.rowHeightAtIndexPath.remove(at: indexPath.row)
+        self.elementsPATHArray.remove(at: indexPath.row)
+        self.imageDataDictinary.removeValue(forKey: indexPath.row)
+        print("SAVE elementsURL: \(self.elementsPATHArray)")
+        self.userDefaults.set(self.elementsPATHArray, forKey: "list")
         
-        elementsPATHArray.remove(at: indexPath.row)
-        print("SAVE elementsURL: \(elementsPATHArray)")
-        userDefaults.set(elementsPATHArray, forKey: "list")
-        
-        //        elementsArray.remove(at: indexPath.row)
-        //        numbersFileInDirectory.remove(at: indexPath.row)
-        print (elementsPATHArray)
-        //      tableView.reloadData()
-        
-        //
-        
-        tableView.beginUpdates()
-        
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        
-        tableView.endUpdates()
-        
-        //    print ("delete row")
+            DispatchQueue.main.sync {
+                
+                tableView.beginUpdates()
+                
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                
+                tableView.endUpdates()
+            }
+
+            
+        }
     }
+    
     func scrollToLastRow() {
         let lastSectionIndex = self.tableView.numberOfSections - 1
         let lastRowIndex = self.tableView.numberOfRows(inSection: 0) - 1
@@ -339,6 +390,13 @@ extension TableViewController {
         // Make the last row visibl
         self.tableView.scrollToRow(at: pathToLastRow, at: UITableViewScrollPosition.none, animated: true)
     }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return rowHeightAtIndexPath[indexPath.row]
+    }
     
     
 }
+
+
+// SAVE elementsURL: ["554143712.MOV", "151152884", "581773780.MOV", "828371147.MOV", "756000625", "802740276.MOV", "550057871", "233528170", "601361311.MOV", "015378204", "448507651.MOV"]

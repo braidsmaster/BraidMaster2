@@ -20,7 +20,7 @@ class VideoTableViewCell: UITableViewCell {
     var avPlayer: AVPlayer?
     var avPlayerLayer: AVPlayerLayer?
     var paused: Bool = false
-    var videoResolution: CGSize?
+//    var videoResolution: CGSize?
     var videoPlayerItem: AVPlayerItem? = nil {
         didSet {
             avPlayer?.replaceCurrentItem(with: self.videoPlayerItem)
@@ -38,28 +38,25 @@ class VideoTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func resolutionForLocalVideo(url: URL) -> CGSize? {
-        guard let track = AVURLAsset(url: url).tracks(withMediaType: AVMediaType.video).first else { return nil }
-        let size = track.naturalSize.applying(track.preferredTransform)
-        self.videoResolution = CGSize(width: fabs(size.width), height: fabs(size.height))
-        return CGSize(width: fabs(size.width), height: fabs(size.height))
-    }
+
     
     func setupMoviePlayer(){
         print("setup")
         self.avPlayer = AVPlayer.init(playerItem: self.videoPlayerItem)
         avPlayerLayer = AVPlayerLayer(player: avPlayer)
         avPlayerLayer?.videoGravity = AVLayerVideoGravity.resize
-        avPlayer?.volume = 1
+        avPlayer?.volume = 0
         
         avPlayer?.actionAtItemEnd = .none
-        if let resolution = videoResolution {
-            let const = resolution.height / resolution.width
-            let height = ceil(self.frame.width * const)
-            avPlayerLayer?.frame.size.width = self.frame.width
-            self.frame.size.height = height
-            avPlayerLayer?.frame.size.height = height
-        }
+//        if let resolution = videoResolution {
+//            let const = resolution.height / resolution.width
+//            let height = ceil(self.frame.width * const)
+//            avPlayerLayer?.frame.size.width = self.frame.width
+//            self.frame.size.height = height
+//            avPlayerLayer?.frame.size.height = height
+//        }
+        avPlayerLayer?.frame.size.width = self.frame.width
+        avPlayerLayer?.frame.size.height = self.frame.height
         self.backgroundColor = .clear
         self.videoPlayerSuperView.layer.insertSublayer(avPlayerLayer!, at: 0)
         
@@ -71,20 +68,22 @@ class VideoTableViewCell: UITableViewCell {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        videoFrame()
+//        videoFrame()
+        avPlayerLayer?.frame.size.width = self.frame.width
+        avPlayerLayer?.frame.size.height = self.frame.height
     }
     
-    func videoFrame()  {
-        if let resolution = videoResolution {
-            let const = resolution.height / resolution.width
-            let height = ceil(self.frame.width * const)
-            avPlayerLayer?.frame.size.width = self.frame.width
-            self.frame.size.height = height
-            avPlayerLayer?.frame.size.height = height
-            self.backgroundColor = .clear
-        }
-    }
-    
+//    func videoFrame()  {
+//        if let resolution = videoResolution {
+//            let const = resolution.height / resolution.width
+//            let height = ceil(self.frame.width * const)
+//            avPlayerLayer?.frame.size.width = self.frame.width
+//            self.frame.size.height = height
+//            avPlayerLayer?.frame.size.height = height
+//            self.backgroundColor = .clear
+//        }
+//    }
+//
     func stopPlayback(){
         self.avPlayer?.pause()
     }

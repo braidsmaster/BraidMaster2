@@ -17,13 +17,14 @@ class ImageTableViewCell: UITableViewCell {
         }
     }
     
-    func iconFrame() {
+    func iconFrame(){
         let const = picture.image!.size.height / picture.image!.size.width
         let iconWidth: CGFloat = self.frame.width
         let iconHeight: CGFloat = self.frame.width * const
         let iconSize = CGSize(width: iconWidth, height: iconHeight)
         let iconOrigin = CGPoint(x: bounds.midX - iconWidth / 2, y: bounds.midY - iconHeight / 2)
         picture.frame = CGRect(origin: iconOrigin, size: iconSize)
+
     }
     
     override func layoutSubviews() {
@@ -33,7 +34,7 @@ class ImageTableViewCell: UITableViewCell {
     
     func setImage(imageName: UIImage) {
         self.picture.image = imageName
-        iconFrame()
+
     }
     
     override func awakeFromNib() {
