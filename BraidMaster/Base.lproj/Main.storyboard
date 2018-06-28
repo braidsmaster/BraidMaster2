@@ -147,8 +147,10 @@
                                         </view>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <gestureRecognizers/>
                                 <connections>
                                     <outlet property="videoPlayerSuperView" destination="gi7-MG-tGA" id="UF9-p7-oNB"/>
+                                    <outletCollection property="gestureRecognizers" destination="DWc-bZ-Bna" appends="YES" id="m3y-aa-eTH"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="imageCell" rowHeight="283" id="8no-e5-mA5" customClass="ImageTableViewCell" customModule="BraidMaster" customModuleProvider="target">
@@ -164,8 +166,10 @@
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <gestureRecognizers/>
                                 <connections>
                                     <outlet property="picture" destination="8vg-C2-6Pz" id="fpO-1V-lCd"/>
+                                    <outletCollection property="gestureRecognizers" destination="CuD-9N-haj" appends="YES" id="Knj-Bp-CqR"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -177,9 +181,14 @@
                     <tabBarItem key="tabBarItem" title="Item" id="hcC-bb-YXv"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AXk-CA-Na1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer cancelsTouchesInView="NO" direction="right" id="DWc-bZ-Bna">
+                <swipeGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" direction="right" id="DWc-bZ-Bna">
                     <connections>
                         <action selector="backSwipe:" destination="Wwn-CJ-MLe" id="fwr-eH-IGw"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="right" id="CuD-9N-haj">
+                    <connections>
+                        <action selector="backSwipe:" destination="Wwn-CJ-MLe" id="AAI-8h-Hfu"/>
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
