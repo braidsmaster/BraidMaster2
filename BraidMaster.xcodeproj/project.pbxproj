@@ -15,6 +15,7 @@
 		1F69B1CD20DB1A4C008CD521 /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F69B1CC20DB1A4C008CD521 /* ImageTableViewCell.swift */; };
 		1F69B1CF20DB1A5A008CD521 /* VideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F69B1CE20DB1A5A008CD521 /* VideoTableViewCell.swift */; };
 		207D3CCCD7B9E8C1B5B86677 /* Pods_BraidMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7920B0777EB9BEAAEA005E0B /* Pods_BraidMaster.framework */; };
+		61E6D1A620E4CCFA00C5FDB8 /* DraftListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6D1A520E4CCFA00C5FDB8 /* DraftListTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		1F69B1CC20DB1A4C008CD521 /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		1F69B1CE20DB1A5A008CD521 /* VideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTableViewCell.swift; sourceTree = "<group>"; };
 		47B74EA9AD51147A1015B0EE /* Pods-BraidMaster.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BraidMaster.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BraidMaster/Pods-BraidMaster.debug.xcconfig"; sourceTree = "<group>"; };
+		61E6D1A520E4CCFA00C5FDB8 /* DraftListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftListTableViewController.swift; sourceTree = "<group>"; };
 		7920B0777EB9BEAAEA005E0B /* Pods_BraidMaster.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BraidMaster.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D722476816E160C15455E432 /* Pods-BraidMaster.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BraidMaster.release.xcconfig"; path = "Pods/Target Support Files/Pods-BraidMaster/Pods-BraidMaster.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -67,6 +69,7 @@
 			children = (
 				1F69B1B820DB1985008CD521 /* AppDelegate.swift */,
 				1F69B1BC20DB1985008CD521 /* Main.storyboard */,
+				61E6D1A520E4CCFA00C5FDB8 /* DraftListTableViewController.swift */,
 				1F69B1CC20DB1A4C008CD521 /* ImageTableViewCell.swift */,
 				1F69B1CE20DB1A5A008CD521 /* VideoTableViewCell.swift */,
 				1F69B1CA20DB19CD008CD521 /* TableViewController.swift */,
@@ -215,6 +218,7 @@
 				1F69B1CD20DB1A4C008CD521 /* ImageTableViewCell.swift in Sources */,
 				1F69B1CF20DB1A5A008CD521 /* VideoTableViewCell.swift in Sources */,
 				1F69B1B920DB1985008CD521 /* AppDelegate.swift in Sources */,
+				61E6D1A620E4CCFA00C5FDB8 /* DraftListTableViewController.swift in Sources */,
 				1F69B1CB20DB19CD008CD521 /* TableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,7 +367,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z8WGUCB39;
 				INFOPLIST_FILE = BraidMaster/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = home.BraidMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -379,7 +386,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z8WGUCB39;
 				INFOPLIST_FILE = BraidMaster/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = home.BraidMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

@@ -60,7 +60,7 @@
         <!--Item-->
         <scene sceneID="ldd-1u-F9v">
             <objects>
-                <tableViewController id="qoJ-TK-dTs" sceneMemberID="viewController">
+                <tableViewController id="qoJ-TK-dTs" customClass="DraftListTableViewController" customModule="BraidMaster" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EyJ-mg-9O1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -74,14 +74,14 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Add Instruction"/>
                                     <connections>
-                                        <segue destination="Wwn-CJ-MLe" kind="show" id="BHh-ea-epK"/>
+                                        <action selector="addInstruction:" destination="qoJ-TK-dTs" eventType="touchUpInside" id="fiN-zh-hKk"/>
                                     </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="SEK-Sd-DkC">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="draftCell" id="SEK-Sd-DkC">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SEK-Sd-DkC" id="KI6-hL-VaW">
@@ -96,6 +96,9 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="5u9-dw-G3c"/>
+                    <connections>
+                        <segue destination="Wwn-CJ-MLe" kind="show" identifier="newInstr" id="nRR-fs-sEr"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YoK-Oq-vPj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

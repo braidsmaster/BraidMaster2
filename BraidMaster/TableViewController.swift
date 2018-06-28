@@ -13,8 +13,8 @@ import AVKit
 import AVFoundation
 
 class TableViewController: UITableViewController{
-    
-    let instructionDir = NSHomeDirectory() + "/Documents/Instruction/"
+    var instrFolderName: String = ""
+    var instructionDir = NSHomeDirectory() + "/Documents/Instruction/"
     var instructionDirURL: URL {
         get {
             return URL(fileURLWithPath: instructionDir)
@@ -29,14 +29,15 @@ class TableViewController: UITableViewController{
     var rowHeightAtIndexPath: [CGFloat] = []
     override func viewDidLoad() {
         super.viewDidLoad()
+    instructionDir += instrFolderName
         checkPermission()
         getURLList()
-        
-        do {
-            try FileManager.default.createDirectory(atPath: instructionDir, withIntermediateDirectories: true, attributes: nil)
-        } catch let error {
-            print(error)
-        }
+// перенесли в draft
+//        do {
+//            try FileManager.default.createDirectory(atPath: instructionDir, withIntermediateDirectories: true, attributes: nil)
+//        } catch let error {
+//            print(error)
+//        }
         
         visibleIP = IndexPath.init(row: 0, section: 0)
         
