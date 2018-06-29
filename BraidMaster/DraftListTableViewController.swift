@@ -49,7 +49,7 @@ class DraftListTableViewController: UITableViewController {
     func newFolderNameGenerator() -> String {
         let charList: [Int] = Array(0...9)
         var newDirName: String = ""
-        for i in 0...4 {
+        for i in 0...5 {
             let randomChar: Int = Int(arc4random_uniform(UInt32(charList.count - 1)))
             newDirName += String( charList[randomChar])
         }
@@ -119,17 +119,28 @@ class DraftListTableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            
+            DispatchQueue.global(qos: .userInteractive).async {
+                do {
+                    let ipath = self.instructionDir + self.filesInDirectory[indexPath.row] + "/"
+                    try FileManager.default.removeItem(atPath: ipath)
+                    
+                    print("file deleted \(ipath)")
+                } catch let error as NSError {
+                    print("error deleting file: \(error.localizedDescription)")
+                }
+            }
+            
+            filesInDirectory.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
+        
     }
-    */
+
 
     /*
     // Override to support rearranging the table view.

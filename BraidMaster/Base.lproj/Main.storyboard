@@ -135,6 +135,10 @@
                                 </button>
                             </subviews>
                             <color key="backgroundColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <gestureRecognizers/>
+                            <connections>
+                                <outletCollection property="gestureRecognizers" destination="6A8-cB-d4f" appends="YES" id="zYc-NT-uQb"/>
+                            </connections>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="videoCell" rowHeight="186" id="va6-Dz-pnC" customClass="VideoTableViewCell" customModule="BraidMaster" customModuleProvider="target">
@@ -190,9 +194,14 @@
                         <action selector="backSwipe:" destination="Wwn-CJ-MLe" id="fwr-eH-IGw"/>
                     </connections>
                 </swipeGestureRecognizer>
-                <swipeGestureRecognizer direction="right" id="CuD-9N-haj">
+                <swipeGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" direction="right" id="CuD-9N-haj">
                     <connections>
                         <action selector="backSwipe:" destination="Wwn-CJ-MLe" id="AAI-8h-Hfu"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" direction="right" id="6A8-cB-d4f">
+                    <connections>
+                        <action selector="backSwipe:" destination="Wwn-CJ-MLe" id="Svc-r2-llq"/>
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
