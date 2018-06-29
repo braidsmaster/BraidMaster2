@@ -29,7 +29,9 @@ class TableViewController: UITableViewController{
     var rowHeightAtIndexPath: [CGFloat] = []
     override func viewDidLoad() {
         super.viewDidLoad()
+
     instructionDir = instrFolderName
+                print(instrFolderName)
 //        print(rowHeightAtIndexPath)
         checkPermission()
         getURLList()
@@ -93,6 +95,7 @@ extension TableViewController {
             for value in data {
                 elementsPATHArray.append(value)
             }
+            print("elementsPATHArray")
             for (index,value) in elementsPATHArray.enumerated() {
                 let indexPath = IndexPath(row: index, section: 0)
                 if let image = UIImage(contentsOfFile: instructionDir + value) {

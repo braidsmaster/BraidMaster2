@@ -99,7 +99,7 @@ class DraftListTableViewController: UITableViewController {
         if segue.identifier == "viewInstr" {
             let destinationVc = segue.destination as! TableViewController
             if let indexPath = tableView.indexPathForSelectedRow {
-             destinationVc.instrFolderName = filesInDirectory [indexPath.row]
+             destinationVc.instrFolderName = instructionDir + filesInDirectory[indexPath.row] + "/"
             }
            
         }
