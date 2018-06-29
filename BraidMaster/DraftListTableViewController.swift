@@ -12,10 +12,10 @@ class DraftListTableViewController: UITableViewController {
     var newDir: String = ""
     let instructionDir = NSHomeDirectory() + "/Documents/Instruction/"
     var filesInDirectory: [String] = []
-    var draftList: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(instructionDir)
         // создание категории instructionDir
         do {
             try FileManager.default.createDirectory(atPath: instructionDir, withIntermediateDirectories: true, attributes: nil)
@@ -30,9 +30,13 @@ class DraftListTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        getFileFromDisk()
+    }
     
     @IBAction func addInstruction(_ sender: Any) {
-        newDir = instructionDir + newFolderNameGenerator()
+        newDir = instructionDir + newFolderNameGenerator() + "/"
         // создание папки
         do {
             try FileManager.default.createDirectory(atPath: newDir, withIntermediateDirectories: true, attributes: nil)
@@ -58,6 +62,8 @@ class DraftListTableViewController: UITableViewController {
         } catch let error as NSError {
             print(error)
         }
+        print(filesInDirectory)
+      tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,7 +80,7 @@ class DraftListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return draftList.count
+        return filesInDirectory.count
     }
 
    

@@ -29,7 +29,8 @@ class TableViewController: UITableViewController{
     var rowHeightAtIndexPath: [CGFloat] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-    instructionDir += instrFolderName
+    instructionDir = instrFolderName
+//        print(rowHeightAtIndexPath)
         checkPermission()
         getURLList()
 // перенесли в draft
@@ -88,7 +89,7 @@ extension TableViewController {
     
     func getURLList() {
         
-        if let data = userDefaults.stringArray(forKey: "list") {
+        if let data = userDefaults.stringArray(forKey: instrFolderName) {
             for value in data {
                 elementsPATHArray.append(value)
             }
@@ -251,7 +252,7 @@ extension TableViewController: UIImagePickerControllerDelegate, UINavigationCont
                 self.imageDataDictinary[self.elementsPATHArray.count] = image
                 self.elementsPATHArray.append(newFileName)
                 print("SAVE elementsURL: \(self.elementsPATHArray)")
-                self.userDefaults.set(self.elementsPATHArray, forKey: "list")
+                self.userDefaults.set(self.elementsPATHArray, forKey: self.instrFolderName)
                 let instructionNewFileURL = self.instructionDirURL.appendingPathComponent(newFileName, isDirectory: true)
                 
                 let data = UIImagePNGRepresentation(image.fixedOrientation()!)
@@ -277,7 +278,7 @@ extension TableViewController: UIImagePickerControllerDelegate, UINavigationCont
                 let instructionNewFileURL = self.instructionDirURL.appendingPathComponent(newFileName, isDirectory: true)
                 self.elementsPATHArray.append(newFileName)
                 print("SAVE elementsURL: \(self.elementsPATHArray)")
-                self.userDefaults.set(self.elementsPATHArray, forKey: "list")
+                self.userDefaults.set(self.elementsPATHArray, forKey: self.instrFolderName)
                 do {
                     
                     try FileManager.default.moveItem(at: url, to: instructionNewFileURL)
@@ -374,7 +375,7 @@ extension TableViewController {
             
             
             print("SAVE elementsURL: \(self.elementsPATHArray)")
-            self.userDefaults.set(self.elementsPATHArray, forKey: "list")
+            self.userDefaults.set(self.elementsPATHArray, forKey: self.instrFolderName)
             for (index,value) in self.elementsPATHArray.enumerated() {
                 if let image = UIImage(contentsOfFile: self.instructionDir + value) {
                     self.imageDataDictinary[index] = image
