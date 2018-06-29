@@ -96,9 +96,21 @@ class DraftListTableViewController: UITableViewController {
         let destinationVc = segue.destination as! TableViewController
         destinationVc.instrFolderName = newDir
         }
+        if segue.identifier == "viewInstr" {
+            let destinationVc = segue.destination as! TableViewController
+            if let indexPath = tableView.indexPathForSelectedRow {
+             destinationVc.instrFolderName = filesInDirectory [indexPath.row]
+            }
+           
+        }
         
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "viewInstr", sender: nil)
+        
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

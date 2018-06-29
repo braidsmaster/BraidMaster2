@@ -98,6 +98,7 @@
                     <tabBarItem key="tabBarItem" title="Item" id="5u9-dw-G3c"/>
                     <connections>
                         <segue destination="Wwn-CJ-MLe" kind="show" identifier="newInstr" id="nRR-fs-sEr"/>
+                        <segue destination="Wwn-CJ-MLe" kind="show" identifier="viewInstr" id="fd4-uF-F2I"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YoK-Oq-vPj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -255,4 +256,7 @@
             <point key="canvasLocation" x="670" y="528"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="fd4-uF-F2I"/>
+    </inferredMetricsTieBreakers>
 </document>
