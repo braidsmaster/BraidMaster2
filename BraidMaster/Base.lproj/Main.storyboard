@@ -21,7 +21,7 @@
                     <connections>
                         <segue destination="Ueh-5R-leQ" kind="relationship" relationship="viewControllers" id="al8-pF-OR8"/>
                         <segue destination="JgS-SG-Zdm" kind="relationship" relationship="viewControllers" id="FKw-z8-WAj"/>
-                        <segue destination="qoJ-TK-dTs" kind="relationship" relationship="viewControllers" id="Iur-A5-3fU"/>
+                        <segue destination="c7o-am-D7e" kind="relationship" relationship="viewControllers" id="Iur-A5-3fU"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NMS-Bd-hgS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -57,7 +57,7 @@
             </objects>
             <point key="canvasLocation" x="-1359" y="528"/>
         </scene>
-        <!--Item-->
+        <!--Draft List Table View Controller-->
         <scene sceneID="ldd-1u-F9v">
             <objects>
                 <tableViewController id="qoJ-TK-dTs" customClass="DraftListTableViewController" customModule="BraidMaster" customModuleProvider="target" sceneMemberID="viewController">
@@ -95,7 +95,7 @@
                             <outlet property="delegate" destination="qoJ-TK-dTs" id="PkO-U7-V5f"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" id="5u9-dw-G3c"/>
+                    <navigationItem key="navigationItem" id="CwK-GB-FhW"/>
                     <connections>
                         <segue destination="Wwn-CJ-MLe" kind="show" identifier="newInstr" id="nRR-fs-sEr"/>
                         <segue destination="Wwn-CJ-MLe" kind="show" identifier="viewInstr" id="fd4-uF-F2I"/>
@@ -103,7 +103,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YoK-Oq-vPj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-375" y="-242"/>
+            <point key="canvasLocation" x="564" y="-242.42878560719643"/>
         </scene>
         <!--Item-->
         <scene sceneID="UCy-Uv-z0k">
@@ -114,7 +114,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="08c-SP-oSg">
-                            <rect key="frame" x="0.0" y="497" width="375" height="78"/>
+                            <rect key="frame" x="0.0" y="497" width="375" height="109"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bCe-Xv-InI">
@@ -133,12 +133,17 @@
                                         <action selector="backSwipe:" destination="Wwn-CJ-MLe" eventType="touchUpInside" id="gCv-kT-byd"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vQl-5l-dmg">
+                                    <rect key="frame" x="163" y="71" width="50" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Upload"/>
+                                    <connections>
+                                        <action selector="uploadInstruction:" destination="Wwn-CJ-MLe" eventType="touchUpInside" id="nd0-kB-Jbs"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <gestureRecognizers/>
-                            <connections>
-                                <outletCollection property="gestureRecognizers" destination="6A8-cB-d4f" appends="YES" id="zYc-NT-uQb"/>
-                            </connections>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="videoCell" rowHeight="186" id="va6-Dz-pnC" customClass="VideoTableViewCell" customModule="BraidMaster" customModuleProvider="target">
@@ -158,7 +163,6 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outlet property="videoPlayerSuperView" destination="gi7-MG-tGA" id="UF9-p7-oNB"/>
-                                    <outletCollection property="gestureRecognizers" destination="DWc-bZ-Bna" appends="YES" id="m3y-aa-eTH"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="imageCell" rowHeight="283" id="8no-e5-mA5" customClass="ImageTableViewCell" customModule="BraidMaster" customModuleProvider="target">
@@ -177,7 +181,6 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outlet property="picture" destination="8vg-C2-6Pz" id="fpO-1V-lCd"/>
-                                    <outletCollection property="gestureRecognizers" destination="CuD-9N-haj" appends="YES" id="Knj-Bp-CqR"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -189,23 +192,8 @@
                     <tabBarItem key="tabBarItem" title="Item" id="hcC-bb-YXv"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AXk-CA-Na1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" direction="right" id="DWc-bZ-Bna">
-                    <connections>
-                        <action selector="backSwipe:" destination="Wwn-CJ-MLe" id="fwr-eH-IGw"/>
-                    </connections>
-                </swipeGestureRecognizer>
-                <swipeGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" direction="right" id="CuD-9N-haj">
-                    <connections>
-                        <action selector="backSwipe:" destination="Wwn-CJ-MLe" id="AAI-8h-Hfu"/>
-                    </connections>
-                </swipeGestureRecognizer>
-                <swipeGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" direction="right" id="6A8-cB-d4f">
-                    <connections>
-                        <action selector="backSwipe:" destination="Wwn-CJ-MLe" id="Svc-r2-llq"/>
-                    </connections>
-                </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="669.60000000000002" y="-242.42878560719643"/>
+            <point key="canvasLocation" x="1608.8" y="-242.42878560719643"/>
         </scene>
         <!--Item-->
         <scene sceneID="5T8-yu-Qse">
@@ -263,6 +251,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fyq-Yv-GvB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="670" y="528"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="WMG-YS-T6c">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="c7o-am-D7e" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="5u9-dw-G3c"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tjE-qi-fXi">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="qoJ-TK-dTs" kind="relationship" relationship="rootViewController" id="f6h-CB-WLs"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aMm-cK-ZGy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-375.19999999999999" y="-242.42878560719643"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

@@ -35,14 +35,16 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - NVHTarGzip (1.0.1)
 
 DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
+  - NVHTarGzip
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -53,6 +55,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
+    - NVHTarGzip
 
 SPEC CHECKSUMS:
   Firebase: d6861c2059d8c32d1e6dd8932e22ada346d90a3a
@@ -65,7 +68,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  NVHTarGzip: 74cc227b902e5725900d37eb6d79b57e93005a73
 
-PODFILE CHECKSUM: c64c9bfcd7f2621af33ce476de47349fcc4cb457
+PODFILE CHECKSUM: b7e0857569fbc9891ad822d374d4fca3424bf3e0
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3

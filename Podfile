@@ -8,7 +8,7 @@ target 'BraidMaster' do
  pod 'Firebase/Core'
  pod 'Firebase/Database'
  pod 'Firebase/Storage'
-
+ pod "NVHTarGzip"
   # Pods for BraidMaster
 
 end

@@ -11,6 +11,7 @@ import MobileCoreServices
 import Photos
 import AVKit
 import AVFoundation
+import FirebaseStorage
 
 class TableViewController: UITableViewController{
     var instrFolderName: String = ""
@@ -30,18 +31,12 @@ class TableViewController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
 
-    instructionDir = instrFolderName
-                print(instrFolderName)
-//        print(rowHeightAtIndexPath)
+        instructionDir = instrFolderName
+        print(instrFolderName)
+
         checkPermission()
         getURLList()
-// перенесли в draft
-//        do {
-//            try FileManager.default.createDirectory(atPath: instructionDir, withIntermediateDirectories: true, attributes: nil)
-//        } catch let error {
-//            print(error)
-//        }
-        
+
         visibleIP = IndexPath.init(row: 0, section: 0)
         
     }
@@ -52,6 +47,9 @@ class TableViewController: UITableViewController{
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func uploadInstruction(_ sender: Any) {
+    
+    }
     
     @IBAction func backSwipe(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -144,6 +142,25 @@ extension TableViewController {
             newFileName += String( charList[randomChar])
         }
         return newFileName
+    }
+    
+    func uploadFile () {
+        
+        let path = Bundle.main.path(forResource: "IMG_5004", ofType:"MOV")
+        let data = try! Data (contentsOf: URL(fileURLWithPath: path!) )
+        
+        // Create a root reference
+        let storageRef = Storage.storage().reference()
+        
+        let uuid = UUID().uuidString
+        
+        // Create a reference to the file you want to upload
+        let imageRef = storageRef.child("testvideos/\(uuid)")
+        
+        // Upload the file
+        imageRef.putData(data, metadata: nil) { (_,_) in
+            print("image done")
+        }
     }
 }
 
