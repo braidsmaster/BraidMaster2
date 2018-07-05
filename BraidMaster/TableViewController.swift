@@ -42,11 +42,9 @@ class TableViewController: UITableViewController{
     var paused: Bool = false
     var imageDataDictinary: [Int: UIImage] = [:]
     var rowHeightAtIndexPath: [CGFloat] = []
-    
+    let alert = UIAlertController(title: "Upload", message: "upload instruction", preferredStyle: .alert)
     var activityIndicator = UIActivityIndicatorView()
-    var strLabel = UILabel()
     
-    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -74,26 +72,29 @@ class TableViewController: UITableViewController{
     }
     func activityIndicator(_ title: String) {
         
-        strLabel.removeFromSuperview()
-        activityIndicator.removeFromSuperview()
-        effectView.removeFromSuperview()
-        
-        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
-        strLabel.text = title
-        strLabel.font = .systemFont(ofSize: 14, weight: .medium)
-        strLabel.textColor = UIColor(white: 0.9, alpha: 0.7)
-        
-        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: 46)
-        effectView.layer.cornerRadius = 15
-        effectView.layer.masksToBounds = true
-        
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
+//        strLabel.removeFromSuperview()
+//        activityIndicator.removeFromSuperview()
+//        effectView.removeFromSuperview()
+//
+//        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
+//        strLabel.text = title
+//        strLabel.font = .systemFont(ofSize: 14, weight: .medium)
+//        strLabel.textColor = UIColor(white: 0.9, alpha: 0.7)
+//
+//        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: 46)
+//        effectView.layer.cornerRadius = 15
+//        effectView.layer.masksToBounds = true
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        activityIndicator.frame = CGRect(x: 10, y: 10, width: 46, height: 46)
         activityIndicator.startAnimating()
+        let action = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(action)
+        alert.view.addSubview(activityIndicator)
+        present(alert, animated: true, completion: nil)
         
-        effectView.contentView.addSubview(activityIndicator)
-        effectView.contentView.addSubview(strLabel)
-        view.addSubview(effectView)
+//        effectView.contentView.addSubview(activityIndicator)
+//        effectView.contentView.addSubview(strLabel)
+//        tableView.addSubview(effectView)
     }
     
     @IBAction func backSwipe(_ sender: Any) {
@@ -205,9 +206,7 @@ extension TableViewController {
         // Upload the file
         imageRef.putData(data, metadata: nil) { (_,_) in
             self.activityIndicator.stopAnimating()
-            self.strLabel.text = "Done"
-            sleep(3)
-            self.effectView.removeFromSuperview()
+            self.alert.dismiss(animated: true, completion: nil)
         }
     }
     
