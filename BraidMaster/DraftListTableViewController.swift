@@ -12,7 +12,7 @@ class DraftListTableViewController: UITableViewController {
     var newDir: String = ""
     let instructionDir = NSHomeDirectory() + "/Documents/Instruction/"
     var filesInDirectory: [String] = []
-    
+    var createDir = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         print(instructionDir)
@@ -36,7 +36,8 @@ class DraftListTableViewController: UITableViewController {
     }
     
     @IBAction func addInstruction(_ sender: Any) {
-        newDir = instructionDir + newFolderNameGenerator() + "/"
+        createDir = newFolderNameGenerator()
+        newDir = instructionDir + createDir + "/"
         // создание папки
         do {
             try FileManager.default.createDirectory(atPath: newDir, withIntermediateDirectories: true, attributes: nil)
@@ -94,12 +95,13 @@ class DraftListTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newInstr" {
         let destinationVc = segue.destination as! TableViewController
-        destinationVc.instrFolderName = newDir
+                destinationVc.instrFolderName =  createDir
+
         }
         if segue.identifier == "viewInstr" {
             let destinationVc = segue.destination as! TableViewController
             if let indexPath = tableView.indexPathForSelectedRow {
-             destinationVc.instrFolderName = instructionDir + filesInDirectory[indexPath.row] + "/"
+             destinationVc.instrFolderName =  filesInDirectory[indexPath.row]
             }
            
         }

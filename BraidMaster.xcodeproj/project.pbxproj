@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F66081420EE0F2F00D2D329 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F66081320EE0F2F00D2D329 /* GoogleService-Info.plist */; };
 		1F69B1B920DB1985008CD521 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F69B1B820DB1985008CD521 /* AppDelegate.swift */; };
 		1F69B1BE20DB1985008CD521 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F69B1BC20DB1985008CD521 /* Main.storyboard */; };
 		1F69B1C020DB1986008CD521 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F69B1BF20DB1986008CD521 /* Assets.xcassets */; };
@@ -19,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F6607BF20EB6AF700D2D329 /* BraidMaster-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BraidMaster-Bridging-Header.h"; sourceTree = "<group>"; };
+		1F66081320EE0F2F00D2D329 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1F69B1B520DB1985008CD521 /* BraidMaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BraidMaster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F69B1B820DB1985008CD521 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F69B1BD20DB1985008CD521 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -73,9 +76,11 @@
 				1F69B1CC20DB1A4C008CD521 /* ImageTableViewCell.swift */,
 				1F69B1CE20DB1A5A008CD521 /* VideoTableViewCell.swift */,
 				1F69B1CA20DB19CD008CD521 /* TableViewController.swift */,
+				1F66081320EE0F2F00D2D329 /* GoogleService-Info.plist */,
 				1F69B1BF20DB1986008CD521 /* Assets.xcassets */,
 				1F69B1C120DB1986008CD521 /* LaunchScreen.storyboard */,
 				1F69B1C420DB1986008CD521 /* Info.plist */,
+				1F6607BF20EB6AF700D2D329 /* BraidMaster-Bridging-Header.h */,
 			);
 			path = BraidMaster;
 			sourceTree = "<group>";
@@ -131,6 +136,7 @@
 				TargetAttributes = {
 					1F69B1B420DB1985008CD521 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 0940;
 					};
 				};
 			};
@@ -158,6 +164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F69B1C320DB1986008CD521 /* LaunchScreen.storyboard in Resources */,
+				1F66081420EE0F2F00D2D329 /* GoogleService-Info.plist in Resources */,
 				1F69B1C020DB1986008CD521 /* Assets.xcassets in Resources */,
 				1F69B1BE20DB1985008CD521 /* Main.storyboard in Resources */,
 			);
@@ -366,6 +373,7 @@
 			baseConfigurationReference = 47B74EA9AD51147A1015B0EE /* Pods-BraidMaster.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z8WGUCB39;
 				INFOPLIST_FILE = BraidMaster/Info.plist;
@@ -375,6 +383,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = home.BraidMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BraidMaster/BraidMaster-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -385,6 +395,7 @@
 			baseConfigurationReference = D722476816E160C15455E432 /* Pods-BraidMaster.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z8WGUCB39;
 				INFOPLIST_FILE = BraidMaster/Info.plist;
@@ -394,6 +405,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = home.BraidMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BraidMaster/BraidMaster-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

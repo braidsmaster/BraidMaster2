@@ -12,12 +12,25 @@ import Photos
 import AVKit
 import AVFoundation
 import FirebaseStorage
+import NVHTarGzip
 
 class TableViewController: UITableViewController{
     var instrFolderName: String = ""
+    var instrFullFolderName: String {
+        get {
+            print("instrFullFolderName", instructionDir + instrFolderName)
+            return  instructionDir + instrFolderName + "/"
+        }
+    }
+    var instrFullFolderNameURL: URL {
+        get {
+            return URL(fileURLWithPath: instrFullFolderName)
+        }
+    }
     var instructionDir = NSHomeDirectory() + "/Documents/Instruction/"
     var instructionDirURL: URL {
         get {
+
             return URL(fileURLWithPath: instructionDir)
         }
     }
@@ -28,11 +41,17 @@ class TableViewController: UITableViewController{
     var paused: Bool = false
     var imageDataDictinary: [Int: UIImage] = [:]
     var rowHeightAtIndexPath: [CGFloat] = []
+    
+    var activityIndicator = UIActivityIndicatorView()
+    var strLabel = UILabel()
+    
+    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        instructionDir = instrFolderName
-        print(instrFolderName)
+//        instructionDir += instrFolderNameurl string
+        
+        print("Full:",instrFolderName)
 
         checkPermission()
         getURLList()
@@ -48,7 +67,32 @@ class TableViewController: UITableViewController{
     }
     
     @IBAction func uploadInstruction(_ sender: Any) {
+        activityIndicator("Upload Instruction")
+        makeArchive(path: instructionDir + instrFolderName)
     
+    }
+    func activityIndicator(_ title: String) {
+        
+        strLabel.removeFromSuperview()
+        activityIndicator.removeFromSuperview()
+        effectView.removeFromSuperview()
+        
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
+        strLabel.text = title
+        strLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        strLabel.textColor = UIColor(white: 0.9, alpha: 0.7)
+        
+        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: 46)
+        effectView.layer.cornerRadius = 15
+        effectView.layer.masksToBounds = true
+        
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
+        activityIndicator.startAnimating()
+        
+        effectView.contentView.addSubview(activityIndicator)
+        effectView.contentView.addSubview(strLabel)
+        view.addSubview(effectView)
     }
     
     @IBAction func backSwipe(_ sender: Any) {
@@ -96,7 +140,7 @@ extension TableViewController {
             print("elementsPATHArray")
             for (index,value) in elementsPATHArray.enumerated() {
                 let indexPath = IndexPath(row: index, section: 0)
-                if let image = UIImage(contentsOfFile: instructionDir + value) {
+                if let image = UIImage(contentsOfFile: instrFullFolderName + value) {
                     imageDataDictinary[index] = image
                     
                     calculateImageRow(image: image, indexPath: indexPath)
@@ -144,23 +188,38 @@ extension TableViewController {
         return newFileName
     }
     
-    func uploadFile () {
+    func uploadFile (path: String) {
         
-        let path = Bundle.main.path(forResource: "IMG_5004", ofType:"MOV")
-        let data = try! Data (contentsOf: URL(fileURLWithPath: path!) )
+//        let path = Bundle.main.path(forResource: "IMG_5004", ofType:"MOV")
+        let data = try! Data (contentsOf: URL(fileURLWithPath: path) )
         
         // Create a root reference
         let storageRef = Storage.storage().reference()
         
-        let uuid = UUID().uuidString
+//        let uuid = UUID().uuidString
         
         // Create a reference to the file you want to upload
-        let imageRef = storageRef.child("testvideos/\(uuid)")
+        let imageRef = storageRef.child("instruction/\(instrFolderName)")
         
         // Upload the file
         imageRef.putData(data, metadata: nil) { (_,_) in
-            print("image done")
+            self.activityIndicator.stopAnimating()
+            self.strLabel.text = "Done"
+            sleep(3)
+            self.effectView.removeFromSuperview()
         }
+    }
+    
+    func makeArchive(path: String) {
+        let pathDest = NSTemporaryDirectory() + "\(instrFolderName).tar"
+        print(path)
+        print(pathDest)
+        NVHTarGzip.sharedInstance().tarFile(atPath: path, toPath: pathDest, completion: {(_ gzipError: Error?) -> Void in
+            if gzipError != nil {
+                print("Error ungzipping \(gzipError)")
+            }
+            self.uploadFile(path: pathDest)
+        })
     }
 }
 
@@ -271,12 +330,15 @@ extension TableViewController: UIImagePickerControllerDelegate, UINavigationCont
                 let newFileName = self.newFileNameGenerator()
                 self.imageDataDictinary[self.elementsPATHArray.count] = image
                 self.elementsPATHArray.append(newFileName)
-                print("SAVE elementsURL: \(self.elementsPATHArray)")
+//                print("SAVE elementsURL: \(self.elementsPATHArray)")
                 self.userDefaults.set(self.elementsPATHArray, forKey: self.instrFolderName)
-                let instructionNewFileURL = self.instructionDirURL.appendingPathComponent(newFileName, isDirectory: true)
+//                let instructionNewFileURL = self.instructionDirURL.appendingPathComponent(newFileName, isDirectory: true)
+//                print(instructionNewFileURL)
                 
                 let data = UIImagePNGRepresentation(image.fixedOrientation()!)
-                FileManager.default.createFile(atPath: instructionNewFileURL.path, contents: data, attributes: nil)
+                let path = self.instrFullFolderName + newFileName
+//                print("path", self.instrFullFolderName)
+                FileManager.default.createFile(atPath: path, contents: data, attributes: nil)
                 
                 DispatchQueue.main.sync {
                     let indexPath = IndexPath(row: self.elementsPATHArray.count - 1, section: 0)
@@ -295,7 +357,7 @@ extension TableViewController: UIImagePickerControllerDelegate, UINavigationCont
                 let url = info[UIImagePickerControllerMediaURL] as? URL{
                 print("mediatype: ",url)
                 let newFileName = self.newFileNameGenerator() + ".MOV"
-                let instructionNewFileURL = self.instructionDirURL.appendingPathComponent(newFileName, isDirectory: true)
+                let instructionNewFileURL = self.instrFullFolderNameURL.appendingPathComponent(newFileName, isDirectory: true)
                 self.elementsPATHArray.append(newFileName)
                 print("SAVE elementsURL: \(self.elementsPATHArray)")
                 self.userDefaults.set(self.elementsPATHArray, forKey: self.instrFolderName)
@@ -344,8 +406,8 @@ extension TableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if let image = UIImage(contentsOfFile: instructionDir + elementsPATHArray[indexPath.row]) {
+        print("cell for row \(instrFullFolderName + elementsPATHArray[indexPath.row])")
+        if let image = UIImage(contentsOfFile: instrFullFolderName + elementsPATHArray[indexPath.row]) {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell", for: indexPath) as! ImageTableViewCell
             
