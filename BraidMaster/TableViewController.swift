@@ -18,8 +18,9 @@ class TableViewController: UITableViewController{
     var instrFolderName: String = ""
     var instrFullFolderName: String {
         get {
-            print("instrFullFolderName", instructionDir + instrFolderName)
-            return  instructionDir + instrFolderName + "/"
+            let result = instructionDir + instrFolderName + "/"
+            print("instrFullFolderName", result)
+            return result
         }
     }
     var instrFullFolderNameURL: URL {
@@ -124,7 +125,7 @@ extension TableViewController {
     
     fileprivate func calculateVideoRow( path: String,  indexPath: IndexPath) {
         
-        if let resolution = resolutionForLocalVideo(url: URL(fileURLWithPath: instructionDir + path)) {
+        if let resolution = resolutionForLocalVideo(url: URL(fileURLWithPath: instrFullFolderName + path)) {
             let videoConst = resolution.height / resolution.width
             let videoHeight = tableView.frame.width * videoConst
             rowHeightAtIndexPath.append(videoHeight)
@@ -420,7 +421,7 @@ extension TableViewController {
             
         } else {
             
-            let url = instructionDir + elementsPATHArray[indexPath.row]
+            let url = instrFullFolderName + elementsPATHArray[indexPath.row]
             print("url string \(url)")
             let fullUrl = URL(fileURLWithPath: url)
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "videoCell") as! VideoTableViewCell
